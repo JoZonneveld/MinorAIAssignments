@@ -18,11 +18,31 @@ namespace GeneticAlgorithm
             Func<Ind, double, Ind> mutation;                            ==> input is one individual and mutation rate, output is the mutated individual
             */
 
+            string indu = createIndividual();
+            
+            Func<Ind> createIndividual<Ind>() 
+            {
+                
+            }
+
             GeneticAlgorithm<int> fakeProblemGA = new GeneticAlgorithm<int>(0.0, 0.0, false, 0, 0); // CHANGE THE GENERIC TYPE (NOW IT'S INT AS AN EXAMPLE) AND THE PARAMETERS VALUES
-            var solution = fakeProblemGA.Run(null, null, null, null, null); 
+            var solution = fakeProblemGA.Run(createIndividual(), null, null, null, null); 
             Console.WriteLine("Solution: ");
             Console.WriteLine(solution);
 
+        }
+
+        static string createIndividual()
+        {
+            string output = "";
+            Random random = new Random();
+
+            for (int i = 0; i < 5; i++)
+            {
+                output += random.Next(0,2);
+            }
+            
+            return output;
         }
     }
 }
