@@ -1,0 +1,6 @@
+C:\Users\malvo\Documents\GitHub\INFDTA01-2\Assignments\Genetic Algorithms - Csharp Main loop code\GeneticAlgorithm\bin\Debug\GeneticAlgorithm.exe.config
+C:\Users\malvo\Documents\GitHub\INFDTA01-2\Assignments\Genetic Algorithms - Csharp Main loop code\GeneticAlgorithm\bin\Debug\GeneticAlgorithm.exe
+C:\Users\malvo\Documents\GitHub\INFDTA01-2\Assignments\Genetic Algorithms - Csharp Main loop code\GeneticAlgorithm\bin\Debug\GeneticAlgorithm.pdb
+C:\Users\malvo\Documents\GitHub\INFDTA01-2\Assignments\Genetic Algorithms - Csharp Main loop code\GeneticAlgorithm\obj\Debug\GeneticAlgorithm.csprojResolveAssemblyReference.cache
+C:\Users\malvo\Documents\GitHub\INFDTA01-2\Assignments\Genetic Algorithms - Csharp Main loop code\GeneticAlgorithm\obj\Debug\GeneticAlgorithm.exe
+C:\Users\malvo\Documents\GitHub\INFDTA01-2\Assignments\Genetic Algorithms - Csharp Main loop code\GeneticAlgorithm\obj\Debug\GeneticAlgorithm.pdb
