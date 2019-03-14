@@ -99,8 +99,8 @@ fun crossover(parents: List<String>): List<String> {
     val l = parents[0].length
     val pointer = Random.nextInt(1, l - 1)
     return listOf(
-        parents[0].substring(0, pointer) + parents[1].substring(pointer, l),
-        parents[1].substring(0, pointer) + parents[0].substring(pointer, l)
+            parents[0].substring(0, pointer) + parents[1].substring(pointer, l),
+            parents[1].substring(0, pointer) + parents[0].substring(pointer, l)
     )
 }
 
