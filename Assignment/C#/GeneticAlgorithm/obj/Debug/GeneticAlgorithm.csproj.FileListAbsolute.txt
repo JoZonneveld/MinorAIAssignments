@@ -1,0 +1,6 @@
+/home/leduck/Documents/School/Minor-AI/MinorAIAssignments/Assignment/C#/GeneticAlgorithm/bin/Debug/GeneticAlgorithm.exe
+/home/leduck/Documents/School/Minor-AI/MinorAIAssignments/Assignment/C#/GeneticAlgorithm/bin/Debug/GeneticAlgorithm.pdb
+/home/leduck/Documents/School/Minor-AI/MinorAIAssignments/Assignment/C#/GeneticAlgorithm/obj/Debug/GeneticAlgorithm.csprojAssemblyReference.cache
+/home/leduck/Documents/School/Minor-AI/MinorAIAssignments/Assignment/C#/GeneticAlgorithm/obj/Debug/GeneticAlgorithm.csproj.CoreCompileInputs.cache
+/home/leduck/Documents/School/Minor-AI/MinorAIAssignments/Assignment/C#/GeneticAlgorithm/obj/Debug/GeneticAlgorithm.exe
+/home/leduck/Documents/School/Minor-AI/MinorAIAssignments/Assignment/C#/GeneticAlgorithm/obj/Debug/GeneticAlgorithm.pdb
