@@ -122,8 +122,8 @@ namespace WineClustering
             int iterations,
             List<T> dataset,
             Func<int, List<T>, List<T>> initialize,
-            Func<T,T, double> calculateDistance
-//            Func<T, List<T>, T> calculateMeanCentroid
+            Func<T,T, double> calculateDistance,
+            Func<T, List<T>, T> calculateMeanCentroid
             )
         {
             List<Tuple<T, List<T>>> centroidsMap = new List<Tuple<T, List<T>>>();
@@ -154,8 +154,14 @@ namespace WineClustering
                         }
                     });
                 }
+                
+                List<T> newCentroids = new List<T>();
+                centroidsMap.ForEach(centroid =>
+                {
+                    newCentroids.Add(calculateMeanCentroid(centroid.Item1, centroid.Item2));
+                });
 
-                Console.WriteLine();
+                centroids = newCentroids;
             }
 
             return centroids;

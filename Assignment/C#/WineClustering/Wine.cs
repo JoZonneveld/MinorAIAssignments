@@ -38,5 +38,10 @@ namespace WineClustering
         {
             return offerId;
         }
+
+        public string getVarietal()
+        {
+            return this.varietal;
+        }
     }
 }

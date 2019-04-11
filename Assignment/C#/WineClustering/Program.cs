@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.Remoting.Messaging;
 
 namespace WineClustering
 {
@@ -45,12 +43,50 @@ namespace WineClustering
                 return Math.Sqrt(zipped.Select(item => Math.Pow(item.Item1 - item.Item2, 2)).Sum());
             };
 
-            List<List<WineChoice>> t = initialize(5, wineChoices);
-            var c = calculateDistance(t[0], t[1]);
+            Func<List<WineChoice>, List<List<WineChoice>>, List<WineChoice>> calculateMeanCentroid =
+                (centroid, cluster) =>
+                {
+                    List<WineChoice> result = new List<WineChoice>();
+                    
+                    //Loop thru 32 offers of wines
+                    for (int i = 0; i < centroid.Count; i++)
+                    {
+                        double sum = 0.0;
+                        //Use the cluster to calculate the mean of the offer
+                        for (int j = 0; j < cluster.Count; j++)
+                        {
+                            sum += cluster[j][i].choice;
+                        }
 
-            Functions.KMeans(5, 10000, wineChoices, initialize, calculateDistance);
-            Console.WriteLine();
+                        double choice = double.IsNaN(sum / cluster.Count) ? 0.0 : sum / cluster.Count;
+                        
+                        result.Add(new WineChoice(centroid[i].offerId, choice));
+                    }
 
+                    return result;
+                };
+
+            var res = Functions.KMeans(5, 10000, wineChoices, initialize, calculateDistance, calculateMeanCentroid);
+
+            for (int i = 0; i < res.Count; i++)
+            {
+                int clusterCount = i + 1;
+                Console.WriteLine("# Cluster : " + clusterCount);
+                Console.WriteLine("|Offer #|Choice|Wine|");
+                Console.WriteLine("|:-|:-|:-|");
+
+                var ordered = res[i].OrderByDescending(r => r.choice).ToList();            
+                
+                ordered.ForEach(it =>
+                {
+                    Wine wineName = wines.Find(wine => wine.getOfferId() == it.offerId);
+
+                    int amount = Convert.ToInt32(wines.Count * it.choice);
+                    
+                    Console.WriteLine("|" + it.offerId + "|" + amount + "|" + wineName.getVarietal() + "|");
+                });
+
+            }
         }
     }
 }
