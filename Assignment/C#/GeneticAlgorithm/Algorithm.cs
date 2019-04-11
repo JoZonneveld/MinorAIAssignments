@@ -21,7 +21,7 @@ namespace GeneticAlgorithm
             this.numIterations = numIterations;
         }
 
-        public A Run(Func<A> createAnIndividual, Func<A, double> computeFitness,
+        public Tuple<A, double> Run(Func<A> createAnIndividual, Func<A, double> computeFitness,
             Func<A[], double[], Func<Tuple<A, A>>> selectTwoParents,
             Func<Tuple<A, A>, Tuple<A, A>> crossover, Func<A, double, A> mutation)
         {
@@ -86,9 +86,12 @@ namespace GeneticAlgorithm
             // recompute the fitnesses on the final population and return the best individual
             var finalFitnesses = Enumerable.Range(0, populationSize).Select(i => computeFitness(currentPopulation[i]))
                 .ToArray();
-            return currentPopulation
+            return new Tuple<A, double>(currentPopulation
                 .Select((individual, index) => new Tuple<A, double>(individual, finalFitnesses[index]))
-                .OrderByDescending(tuple => tuple.Item2).First().Item1;
+                .OrderByDescending(tuple => tuple.Item2).First().Item1,
+                currentPopulation
+                    .Select((individual, index) => new Tuple<A, double>(individual, finalFitnesses[index]))
+                    .OrderByDescending(tuple => tuple.Item2).First().Item2);
         }
     }
 }

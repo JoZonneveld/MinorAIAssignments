@@ -9,11 +9,19 @@ namespace WineClustering
         private static Random rnd = new Random();
         public static void Main(string[] args)
         {
+            //Read and convert all data to the right sets
             List<Wine> wines = Functions.ReadWines();
             List<Transaction> transactions = Functions.ReadTransactions();
             List<Tuple<string, List<WineChoice>>> wineChoicesName = Functions.GetWineChoices(wines, transactions);
             List<List<WineChoice>> wineChoices = Functions.mapTuple(wineChoicesName);
 
+            /**
+             *  Creates new random centroids
+             *  @param k = int for how much clusters
+             *  @param dataset = Dataset to create new random Centroids for the amount of k
+             *
+             * returns list of random centroids
+             */
             Func<int, List<List<WineChoice>>, List<List<WineChoice>>> initialize = (k, dataset) =>
             {
                 List<List<WineChoice>> result = new List<List<WineChoice>>();
@@ -22,6 +30,7 @@ namespace WineClustering
                 while (i < k)
                 {
                     List<WineChoice> centroid = new List<WineChoice>();
+                    //creates the new centroid with a List<WineChoice> but with random choice value
                     foreach (var data in dataset.First())
                     {
                         centroid.Add(new WineChoice(data.offerId, rnd.NextDouble()));
@@ -33,16 +42,35 @@ namespace WineClustering
                 return result;
             };
 
+            /**
+             * Calculate the distance between the centroid and the data
+             *
+             * @param centroid = centroid of the cluster
+             * @param data = checks how far the data is from the centroid
+             *
+             * return distance between data and centroid
+             */
             Func<List<WineChoice>, List<WineChoice>, double> calculateDistance = (centroid, data) =>
             {
+                //get the choice values of the centroid and the data
                 List<double> centroidValues = centroid.Select(it => it.choice).ToList();
                 List<double> dataValues = data.Select(it => it.choice).ToList();
-
+                
+                //creates a Tuple with the centroidValue as item1 and dataValue as item2
                 List<Tuple<double, double>> zipped = Functions.zip(centroidValues, dataValues);
                 
+                //Calculates the distance between the the centroid and the data
                 return Math.Sqrt(zipped.Select(item => Math.Pow(item.Item1 - item.Item2, 2)).Sum());
             };
 
+            /**
+             * Calculate the mean in the cluster and make that the new centroid
+             *
+             * @param centroid = current centroid
+             * @param cluster = cluster from the current centroid
+             *
+             * return new centroid
+             */
             Func<List<WineChoice>, List<List<WineChoice>>, List<WineChoice>> calculateMeanCentroid =
                 (centroid, cluster) =>
                 {
@@ -57,9 +85,9 @@ namespace WineClustering
                         {
                             sum += cluster[j][i].choice;
                         }
-
+                        //check if the choice is not NaN if so make it 0.0
                         double choice = double.IsNaN(sum / cluster.Count) ? 0.0 : sum / cluster.Count;
-                        
+                        //add new mean of the custer as an object of the centroid
                         result.Add(new WineChoice(centroid[i].offerId, choice));
                     }
 
@@ -68,6 +96,8 @@ namespace WineClustering
 
             var res = Functions.KMeans(5, 10000, wineChoices, initialize, calculateDistance, calculateMeanCentroid);
 
+            
+            //generates output for stackedit.io for easy read
             for (int i = 0; i < res.Count; i++)
             {
                 int clusterCount = i + 1;

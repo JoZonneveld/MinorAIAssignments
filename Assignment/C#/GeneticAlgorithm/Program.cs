@@ -11,6 +11,11 @@ namespace GeneticAlgorithm
         {
             Algorithm<string> program = new Algorithm<string>(0.5, 0.6, false, 5, 50);
 
+            /**
+             * Creates an individual
+             *
+             * returns an individual
+             */
             Func<string> createIndividual = () => {
                 //Create variable that will be returned as new Individual
                 string output = "";
@@ -21,7 +26,12 @@ namespace GeneticAlgorithm
 
                 return output;
             };
-
+            
+            /**
+             * Calculates the fitness of an individual
+             *
+             * return the calculated fitness
+             */
             Func<string, double> computeFitness = (individual) => {
                 double fitness = 0.0;
 
@@ -31,6 +41,11 @@ namespace GeneticAlgorithm
                 return fitness;
             };
 
+            /**
+             * Select two parents
+             *
+             * return Tuple of two strings (two parents)
+             */
             Func<string[], double[], Func<Tuple<string, string>>> selectTwoParents = (individuals, fitness) => {
                 Func<Tuple<string, string>> select = () =>
                 {
@@ -74,6 +89,11 @@ namespace GeneticAlgorithm
                 return select;
             };
             
+            /**
+             * Creates the childeren from the parents
+             *
+             * returns the child
+             */
             Func<Tuple<string, string>, Tuple<string, string>> crossover = (parents) =>
             {
                 int l = parents.Item1.Length;
@@ -86,6 +106,11 @@ namespace GeneticAlgorithm
                     father.Substring(0, split) + mother.Substring(split, mother.Length-split));
             };
 
+            /**
+             * Mutates the child with the chance of mutationRate
+             *
+             * returns (Mutated)child
+             */
             Func<string, double, string> mutation = (child, mutationRate) =>
             {
                 string output = "";
