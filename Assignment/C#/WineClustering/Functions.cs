@@ -161,7 +161,7 @@ namespace WineClustering
             Func<T, List<T>, T> calculateMeanCentroid
             )
         {
-            //value that stores the centroid with it's clustor
+            //value that stores the centroid with it's cluster
             List<Tuple<T, List<T>>> centroidsMap = new List<Tuple<T, List<T>>>();
             //value that stores the centroids
             List<T> centroids = initialize(k, dataset);

@@ -9,7 +9,7 @@ namespace GeneticAlgorithm
         static Random rnd = new Random();
         public static void Main(string[] args)
         {
-            Algorithm<string> program = new Algorithm<string>(0.5, 0.6, false, 5, 50);
+            Algorithm<string> program = new Algorithm<string>(0.8, 0.4, true, 5, 50);
 
             /**
              * Creates an individual
@@ -36,7 +36,7 @@ namespace GeneticAlgorithm
                 double fitness = 0.0;
 
                 double x = Convert.ToInt32(individual, 2);
-                fitness = Math.Abs(-(Math.Pow(x, 2.0)) + (7*x));
+                fitness = -(Math.Pow(x, 2.0)) + (7*x);
 
                 return fitness;
             };
@@ -49,8 +49,14 @@ namespace GeneticAlgorithm
             Func<string[], double[], Func<Tuple<string, string>>> selectTwoParents = (individuals, fitness) => {
                 Func<Tuple<string, string>> select = () =>
                 {
-                    int startPoint = Convert.ToInt32(fitness.Min());
-                    int maxValue = Convert.ToInt32(fitness.Sum());
+                    List<double> positiveFitness = new List<double>();
+                    
+                    foreach (double item in fitness)
+                    {
+                        positiveFitness.Add(item + Math.Abs(fitness.Min()));
+                    }
+                    int startPoint = Convert.ToInt32(positiveFitness.Min());
+                    int maxValue = Convert.ToInt32(positiveFitness.Sum());
 
                     Tuple<string, double>[] sortedIndividualsWithFitness = zipSorted(individuals, fitness);
 
@@ -136,7 +142,25 @@ namespace GeneticAlgorithm
                 return output;
             };
 
-            Console.WriteLine(program.Run(createIndividual, computeFitness, selectTwoParents, crossover, mutation));
+            List<string> results = new List<string>();
+            for (int i = 0; i < 500; i++)
+            {
+                results.Add(program.Run(createIndividual, computeFitness, selectTwoParents, crossover, mutation));
+            }
+
+            List<int> binaryRes = results.OrderBy(it => it).ToList().Select(it => Convert.ToInt32(it, 2)).ToList();
+            int correct = 0;
+            foreach (var res in binaryRes)
+            {
+                if (res == 3 || res == 4)
+                {
+                    correct++;
+                    Console.WriteLine(res);
+                }
+               
+            }
+            Console.WriteLine("Correct ones: " + correct + "on 500");
+
         }
 
         private static Tuple<A, B>[] zipSorted<A,B>(A[] list1, B[] list2)
